@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "lotto-auto-504712",
+  "private_key_id": "a2028402659aa6519f79c448e5bc09774efaefcb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/5Hu2q0IVAhqB\nBRBQ3h5wrjKXi7MtknYJiSS8OK275jGZTfSpQT/MuNuM/Ek8gw3gcINYuj+ZxU/Y\no4132e0fM7el5tdmsKKt+ydO1qF5ZOPYYgIV2aG77xqVPAjX3+MbjHkVIuwnKbzr\nHwf/sQM2WwIi7oHClVhUT+YZcjoaxi8WtLF+EqHq4CCt/q0RFdSgqMXJWjWqZzxf\nM1y2ZSMYiO944TjTM4m3bnVLmMRzjyCluSX1wuVocMBWCqunwPZohWrtwCLFrdnA\nmv5dDRwl1KONka02NiKpVOnC7nVEFE0D6iiOTzyG/Ama4YuLPtymDWtUWBZiCd2F\nqPOAUYmNAgMBAAECggEACmT4BpcUR0sL4H1Duv2tLHFjMC5TEF7kofOZ19BCKPF5\nMlK0tA5ixFYnHmX0GaEHuWae1smP9GZpwtRpL1rQq2YDxqrQdDGRPldic7TQnmDG\nrsvwTPqy9hknmXndCMSJ6s4bKPfxTtXF8/6EUmdmQyV+4iGFSeMJG9gQIMS9PQHz\nLNzfvwe/cTcrXhqCBqvzlPyT3bdfjut8tdO3RN3qMLSOkQ4U+TMPXaOQrNt5OBfb\n5c7u3gpdmSyqLMwXS7actrj1YbWcvRSDNJwp0aYoYiH8C6wifJAmIT7hYNCiJAA5\nNbbsPAq7Usob+iTcVeYGhI2QMXEPuUv75HodoZaWCQKBgQDtvRH53pT2rCe67sG6\nG7gu1L9n46eCS++JdYpHrpoy+DswkxOXiG/fNmpnNfP/dOOCjx2zJ2Gp0lmiwj04\ntbwRTF2Fc6M6st6TxmQ6Iyfbo0DG0v8o/5Hqzz/0lrDcpHH51JZpVaC8IPDuVfiM\nzA/DZNg4QmM9NFAkyW1S2J4GawKBgQDOoeOTJBIK8PBQmSvrzm00p/zrgV8/Gixw\nnlgXuov6wQ+jFxTgFPdCCM8aBlhTFoi3NR+Cmcr52ko33XuFtXN8KXK96T0uQuQF\nbX7ZJwDw4HEXTxyHVglqFgG7EmxmiBleJoUTYSOohxylkCKmkgPx+9Re15lTT8ii\norRWHKb95wKBgQCksM27Iw5es3Pyc2OQ4ZL+HjNabMKl6KTPvLVGYxY/KOcYB0sT\nNlkJcFDVnvKgjQDueOZCLY3ibu3ZamWu23alJRnEUQ9Koo6+IDlebOw3oyhEk/Zf\nGGylFV1guuNadjDeuP5ZihAHQ2qkMLo2D0b8POfsUVEeHRdH5KHvOlB+cQKBgAU7\n3IPRmhNk3vFrr80dQW7gAmwEruDuTMndeOXA9+K2GStMXl7+qPSnPHewSXRxUa0y\nT0YDlzyU5uRbW9GbMv2mHx3oVoBheV0Z1OizMDbpuHOasWJML5jcTdbrNIu0TtAv\nsZc4EqsmIPegmwAVGrx6YHq2g0+06aQU8vRrbV9pAoGBAJZZL+3unw8VMx7tUGhj\nr13gKP7xQ38YItiiibaQdAmy2+FVRZ7atFhyquKcXs1vWwoBWQiHjo3WgNk9BMDF\n80TcQJTdvYs7OEm+Sx+2LhQesGWqHOuCtz/iPbsOzimAoutWR7BUNH7wnjyGp2MM\npflEEEDszMUfkSCsu+HuuaA+\n-----END PRIVATE KEY-----\n",
+  "client_email": "lotto-auto@lotto-auto-504712.iam.gserviceaccount.com",
+  "client_id": "100334594767589486390",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lotto-auto%40lotto-auto-504712.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
