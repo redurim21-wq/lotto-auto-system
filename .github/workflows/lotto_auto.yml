@@ -3,23 +3,21 @@ name: Lotto Auto Update
 # 언제 실행할지 설정 (스케줄러)
 on:
   schedule:
-    # UTC 기준 일요일 00:00 (한국 시간 일요일 오전 09:00 정각)
     - cron: '0 0 * * 0'
-  # 수동으로 버튼을 눌러서 실행할 수도 있게 해주는 옵션
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # 가상의 우분투(리눅스) 컴퓨터 한 대를 빌림
+    runs-on: ubuntu-latest 
 
     steps:
-    # 1. 내 저장소의 파일들을 가상 컴퓨터로 불러오기
+    # 1. 내 저장소의 파일들을 가상 컴퓨터로 불러오기 (v4로 업데이트)
     - name: 저장소 소스코드 불러오기
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    # 2. 가상 컴퓨터에 파이썬 설치하기
+    # 2. 가상 컴퓨터에 파이썬 설치하기 (v5로 업데이트)
     - name: 파이썬 환경 설정
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
@@ -29,6 +27,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # 4. 드디어 내 파이썬 스크립트 실행!
+    # 4. 내 파이썬 스크립트 실행
     - name: 로또 데이터 자동 갱신 스크립트 실행
       run: python 03_lotto_sheet_update.py
