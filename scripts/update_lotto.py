@@ -243,6 +243,8 @@ def main():
         region = row[9] if len(row) > 9 and row[9] else ""
         if not region and len(row) > 12 and row[12]:
             region = row[12].split(" ")[0]
+        if sid == "51100000":  # 동행복권 인터넷 판매 (물리적 주소가 없는 특수 항목)
+            region = "온라인"
         latest_shops.append({
             "type": row[3] or "자동",
             "region": region,
