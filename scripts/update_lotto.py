@@ -50,34 +50,42 @@ def append_csv(path, rows):
 # ----------------------------------------------------------------------
 # 1. 동행복권에서 다음 회차 당첨번호 가져오기
 # ----------------------------------------------------------------------
-def fetch_lotto_round(epsd):
+def fetch_lotto_round(epsd, retries=3, delay=2):
     url = "https://www.dhlottery.co.kr/lt645/selectPstLt645InfoNew.do"
     params = {
         "srchDir": "center",
         "srchLtEpsd": str(epsd),
         "_": str(int(time.time() * 1000)),
     }
-    try:
-        res = requests.get(url, headers=REQUEST_HEADERS, params=params, timeout=10)
-        lst = res.json().get("data", {}).get("list", [])
-        return next((x for x in lst if x.get("ltEpsd") == epsd), None)
-    except Exception as e:
-        print(f"⚠️ 당첨번호 조회 오류: {e}")
-        return None
+    for attempt in range(1, retries + 1):
+        try:
+            res = requests.get(url, headers=REQUEST_HEADERS, params=params, timeout=10)
+            lst = res.json().get("data", {}).get("list", [])
+            return next((x for x in lst if x.get("ltEpsd") == epsd), None)
+        except Exception as e:
+            print(f"⚠️ {epsd}회차 당첨번호 조회 실패 ({attempt}/{retries}차 시도): {e}")
+            if attempt < retries:
+                time.sleep(delay)
+    print(f"❌ {epsd}회차 당첨번호 조회 최종 실패 — 일시적 네트워크 문제일 수 있습니다. 다음 실행에서 다시 시도됩니다.")
+    return None
 
 
 # ----------------------------------------------------------------------
 # 2. 동행복권에서 해당 회차 당첨점(1등/2등) 가져오기
 # ----------------------------------------------------------------------
-def fetch_shop_round(epsd):
+def fetch_shop_round(epsd, retries=3, delay=2):
     url = "https://www.dhlottery.co.kr/wnprchsplcsrch/selectLtWnShp.do"
     params = {"srchWnShpRnk": "all", "srchLtEpsd": str(epsd)}
-    try:
-        res = requests.get(url, headers=REQUEST_HEADERS, params=params, timeout=10)
-        return res.json().get("data", {}).get("list", [])
-    except Exception as e:
-        print(f"⚠️ 당첨점 조회 오류: {e}")
-        return []
+    for attempt in range(1, retries + 1):
+        try:
+            res = requests.get(url, headers=REQUEST_HEADERS, params=params, timeout=10)
+            return res.json().get("data", {}).get("list", [])
+        except Exception as e:
+            print(f"⚠️ {epsd}회차 당첨점 조회 실패 ({attempt}/{retries}차 시도): {e}")
+            if attempt < retries:
+                time.sleep(delay)
+    print(f"❌ {epsd}회차 당첨점 조회 최종 실패")
+    return []
 
 
 # ----------------------------------------------------------------------
@@ -180,6 +188,18 @@ def main():
     _, lotto_rows = read_csv(LOTTO_CSV)
     _, shop_rows = read_csv(SHOP_CSV)
 
+    # 원본 CSV에 같은 회차가 중복으로 들어있는 경우를 대비해 걸러낸다 (첫 항목만 유지)
+    def dedup_by_round(rows):
+        seen = set()
+        out = []
+        for r in rows:
+            if r and r[0] not in seen:
+                seen.add(r[0])
+                out.append(r)
+        return out
+
+    lotto_rows = dedup_by_round(lotto_rows)
+
     latest = lotto_rows[-1]
     latest_epsd = str(latest[0])
 
@@ -220,9 +240,12 @@ def main():
 
     latest_shops = []
     for sid, row in rep_row.items():
+        region = row[9] if len(row) > 9 and row[9] else ""
+        if not region and len(row) > 12 and row[12]:
+            region = row[12].split(" ")[0]
         latest_shops.append({
             "type": row[3] or "자동",
-            "region": row[9],
+            "region": region,
             "name": row[5],
             "address": row[12],
             "count1": cum1[sid],
