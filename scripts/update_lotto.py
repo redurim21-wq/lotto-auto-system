@@ -111,11 +111,17 @@ def main():
     _, lotto_rows = read_csv(LOTTO_CSV)
     last_epsd = int(lotto_rows[-1][0])
     target = last_epsd + 1
+    added_any = False
 
-    print(f"🔄 현재 마지막 회차: {last_epsd}회 → {target}회 확인 중...")
-    new_round = fetch_lotto_round(target)
+    # 밀린 회차가 여러 개 있어도(예: 시드 데이터가 오래됐거나, 자동 실행이 한 번 빠졌거나)
+    # 한 번의 실행에서 최신 회차까지 전부 따라잡는다.
+    while True:
+        print(f"🔄 {target}회차 확인 중...")
+        new_round = fetch_lotto_round(target)
+        if not new_round:
+            print(f"ℹ️ {target}회차는 아직 추첨 전이거나 데이터가 없습니다. 여기서 멈춥니다.")
+            break
 
-    if new_round:
         lotto_row = [
             new_round.get("ltEpsd"), new_round.get("ltRflYmd"),
             new_round.get("tm1WnNo"), new_round.get("tm2WnNo"), new_round.get("tm3WnNo"),
@@ -162,8 +168,13 @@ def main():
             print(f"✅ {target}회차 당첨점 추가 완료 (1등 {n1}곳 / 2등 {n2}곳)")
         else:
             print(f"⚠️ {target}회차 당첨점 데이터가 아직 서버에 없습니다.")
-    else:
-        print(f"ℹ️ {target}회차는 아직 추첨 전이거나 데이터가 없습니다. 기존 최신 데이터로 뉴스만 갱신합니다.")
+
+        added_any = True
+        target += 1
+        time.sleep(1)  # 동행복권 서버에 짧은 시간 안에 요청이 몰리지 않도록 약간 대기
+
+    if not added_any:
+        print("ℹ️ 새로 추가된 회차가 없습니다. 기존 데이터로 뉴스만 갱신합니다.")
 
     # ---- 최신 상태로 다시 읽어서 latest.json 생성 ----
     _, lotto_rows = read_csv(LOTTO_CSV)
