@@ -1,0 +1,42 @@
+name: 로또 자동 업데이트
+
+on:
+  schedule:
+    # 매주 토요일 21:30 KST = 12:30 UTC (추첨 직후, 당첨번호/당첨점 갱신)
+    - cron: "30 12 * * 6"
+    # 매주 월요일 09:00 KST = 00:00 UTC (뉴스 및 보정용 갱신)
+    - cron: "0 0 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: 로또 데이터 업데이트 실행
+        run: python scripts/update_lotto.py
+
+      - name: 변경사항 커밋 및 푸시
+        run: |
+          git config user.name "lotto-bot"
+          git config user.email "lotto-bot@users.noreply.github.com"
+          git add data/ docs/
+          if git diff --cached --quiet; then
+            echo "변경사항 없음 - 커밋 생략"
+          else
+            git commit -m "🔄 로또 데이터 자동 업데이트 ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+          fi
